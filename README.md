@@ -1,2 +1,1 @@
-# MiniNetflix-
-Android app 
+
