@@ -1,68 +1,102 @@
 package com.example.recs.presentation.account.signin
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import com.example.mini_netflix.R
 import com.example.recs.utility.Const
 
 @Composable
 fun SignInView(
     onSignInClick:()->Unit
 ) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
+        Image(painter = painterResource(R.drawable.welcome_logo),
+            contentDescription = " ",
+            modifier = Modifier.size(500.dp).padding(top = 25.dp))
+
         TextField(
-            value = "",
-            onValueChange = {},
+            modifier = Modifier.fillMaxWidth(),
+            value = email,
+            onValueChange = {email = it},
             label = {
                 Text(
                     text = "Enter your Email: ",
-                    color = Color.White
+                    color = Color.LightGray
                 )
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Black,
+                unfocusedContainerColor = Color.Gray,
+                focusedIndicatorColor = Color.Transparent,
+                focusedTextColor = Color.White
+            )
 
         )
         Spacer(
             modifier =Modifier.height(20.dp)
         )
         TextField(
-            value = "",
+            modifier = Modifier.fillMaxWidth(),
+            value = password,
             onValueChange = {
-
+                password = it
             },
             label = {
                 Text(
                     text = "Enter your Password: ",
-                    color = Color.White
+                    color = Color.LightGray
                 )
             },
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Black,
+                unfocusedContainerColor = Color.Gray,
+               focusedIndicatorColor = Color.Transparent,
+                focusedTextColor = Color.White
+        )
 
         )
+        Spacer(
+            modifier =Modifier.height(20.dp)
+        )
+
         Button(
             colors = ButtonDefaults.buttonColors(Color.Black),
             onClick = {
                 onSignInClick()
                 Log.d(Const.APP_LOGS,"onSignInClicked")
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Sign In",

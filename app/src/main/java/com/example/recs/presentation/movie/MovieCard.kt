@@ -1,7 +1,6 @@
 package com.example.recs.presentation.movie
 
 import android.util.Log
-import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,24 +18,22 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.mini_netflix.R
 import com.example.recs.data.model.Movie
 import com.example.recs.utility.Const
 
 @Composable
 fun MovieCard(
     movie: Movie,
-    onMovieCardClicked:()-> Unit
+    onMovieCardClicked:()-> Unit,
 ) {
 
     Card(
         modifier = Modifier
-            .size(350.dp)
+            .size(450.dp)
             .padding(10.dp),
         shape = RoundedCornerShape(35.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -47,7 +44,7 @@ fun MovieCard(
             model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
             contentDescription = movie.title,
             contentScale = ContentScale.FillBounds,
-            modifier = Modifier.fillMaxWidth().height(200.dp).clip(RoundedCornerShape(20.dp))
+            modifier = Modifier.fillMaxWidth().height(290.dp).clip(RoundedCornerShape(20.dp))
         )
         Column(
             modifier = Modifier.padding(5.dp),
@@ -58,7 +55,7 @@ fun MovieCard(
 
             Text(text = movie.title, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
             Text(
-                text = "⭐ ${movie.vote_average}",
+                text = "⭐ ${"%.1f".format(movie.vote_average)}",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium
             )
@@ -69,7 +66,7 @@ fun MovieCard(
                     .padding(10.dp)
                     .fillMaxWidth()
             ) {
-                Text(text =  "Rate it")
+                Text(text =  "Watch Now")
                 Log.d(Const.APP_LOGS,"onMovieCardClicked")
 
             }

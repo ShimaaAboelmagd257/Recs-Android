@@ -17,7 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -27,44 +27,48 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.mini_netflix.R
 import com.example.recs.presentation.account.profile.ProfileView
-import com.example.recs.presentation.genre.CardGrid
-import com.example.recs.presentation.genre.genreCardsContent
+import com.example.recs.presentation.genre.GenreView
+import com.example.recs.presentation.genre.MoviesByGenreView
+
 import com.example.recs.presentation.home.HomeView
+import com.example.recs.presentation.movie.MovieWithDetailsView
 import com.example.recs.presentation.rating.RateView
-import com.example.recs.presentation.recommendation.RecommendationView
+import com.example.recs.presentation.recommendation.RecsView
 
 @Composable
-fun HomeTabs(modifier: Modifier = Modifier) {
+fun HomeTabs() {
     val homeTab = TabBarItem(
         title = NavigationRoute.Home.route,
-        selectedIcon = painterResource(R.drawable.ic_launcher_background),
-        unselectedIcon = painterResource(R.drawable.ic_launcher_foreground),
+        selectedIcon = painterResource(R.drawable.home_filled),
+        unselectedIcon = painterResource(R.drawable.home_outlined),
     )
     val genreTab = TabBarItem(
         title = NavigationRoute.Genre.route,
-        selectedIcon = painterResource(R.drawable.ic_launcher_background),
-        unselectedIcon = painterResource(R.drawable.ic_launcher_foreground),
+        selectedIcon = painterResource(R.drawable.genre_filled),
+        unselectedIcon = painterResource(R.drawable.genre_outline),
     )
     val recsTab = TabBarItem(
         title = NavigationRoute.Recommendation.route,
-        selectedIcon = painterResource(R.drawable.ic_launcher_background),
-        unselectedIcon = painterResource(R.drawable.ic_launcher_foreground),
+        selectedIcon = painterResource(R.drawable.recs_filles),
+        unselectedIcon = painterResource(R.drawable.recs_outline),
     )
     val rateTab = TabBarItem(
         title = NavigationRoute.Rate.route,
-        selectedIcon = painterResource(R.drawable.ic_launcher_background),
-        unselectedIcon = painterResource(R.drawable.ic_launcher_foreground),
+        selectedIcon = painterResource(R.drawable.rates_filled),
+        unselectedIcon = painterResource(R.drawable.rates_outline),
     )
 
     val profileTab = TabBarItem(
         title = NavigationRoute.Profile.route,
-        selectedIcon = painterResource(R.drawable.ic_launcher_background),
-        unselectedIcon = painterResource(R.drawable.ic_launcher_foreground),
+        selectedIcon = painterResource(R.drawable.account_filled),
+        unselectedIcon = painterResource(R.drawable.account_outlined),
     )
 
     val tabBarItems = listOf(homeTab, genreTab,recsTab ,rateTab, profileTab)
@@ -76,27 +80,49 @@ fun HomeTabs(modifier: Modifier = Modifier) {
         Scaffold(
             bottomBar = { TabView(tabBarItems,navController) },
             modifier = Modifier.background(Color.Transparent),
-            content = { it ->
+            content = {
                 Box (Modifier.padding(it)) {
                     NavHost(
                         navController = navController,
                         startDestination = homeTab.title,
                     ){
                         composable(NavigationRoute.Home.route) {
-                            HomeView (onMovieClicked = { navController.navigate(NavigationRoute.Rate.route) })
-                        }
+                            HomeView { movieId ->
+                                navController.navigate( "movieDetails/$movieId")
+                            }                        }
                         composable(NavigationRoute.Genre.route) {
-                            CardGrid(cards = genreCardsContent(), columns = 2)
+                            GenreView(onGenreClicked = {genreId ->
+                                navController.navigate(NavigationRoute.MoviesByGenre.passGenreId(genreId))
+
+                            }
+
+                            )
+                        }
+                        composable( "movieDetails/{movieId}", arguments = listOf(navArgument("movieId") { type = NavType.IntType }) ) {
+                            val movieId = it.arguments?.getInt("movieId")!!
+                            MovieWithDetailsView (movieId = movieId , onRateClicked = {})
+                        }
+                        composable(
+                            NavigationRoute.MoviesByGenre.route,
+                            arguments = listOf(navArgument("genreId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+
+                            val genreId = backStackEntry.arguments?.getInt("genreId") ?: 0
+
+                            MoviesByGenreView(
+                                genreId = genreId, onMovieClicked = { }
+                            )
                         }
                         composable(NavigationRoute.Recommendation.route) {
-                           RecommendationView()
+                           RecsView(onMovieClicked = { navController.navigate(NavigationRoute.Rate.route) }, userId = 1)
                         }
                         composable(NavigationRoute.Rate.route) {
-                           RateView()
+                           RateView(userId = 1, onMovieClicked = {})
                         }
                         composable(NavigationRoute.Profile.route) {
                             ProfileView()
                         }
+
 
 
                     }
@@ -141,7 +167,7 @@ data class TabBarItem(
 )
 @Composable
 fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     NavigationBar(containerColor = Color.Transparent) {
         tabBarItems.forEachIndexed { index, tabBarItem ->

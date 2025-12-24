@@ -1,4 +1,4 @@
-package com.example.recs.presentation.home
+package com.example.recs.presentation.movie
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -10,20 +10,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val  homeUseCases: HomeUseCases):ViewModel() {
+class MovieDetailsViewModel @Inject constructor(private val  movieDetailsUseCase: MovieDetailsUseCase): ViewModel() {
 
 
-    private val _state = MutableStateFlow<HomeStatus>(HomeStatus.Loading)
-    val state: StateFlow<HomeStatus> = _state
+    private val _state = MutableStateFlow<MovieDetailStatus>(MovieDetailStatus.Loading)
+    val state: StateFlow<MovieDetailStatus> = _state
 
-    fun getPopularMovies(){
+    fun getMovieDetails(movieId:Int){
         viewModelScope.launch {
             try {
-                val result = homeUseCases.invoke()
+                val result = movieDetailsUseCase.invoke(movieId)
                 _state.value = result
-                Log.e(Const.APP_LOGS, "Home ViewModel SUCCESS")
+                Log.e(Const.APP_LOGS, "MovieDetailsViewModel SUCCESS")
 
             }catch (e:Exception){
                 Log.e(Const.APP_LOGS, e.message?:"Exception Error")

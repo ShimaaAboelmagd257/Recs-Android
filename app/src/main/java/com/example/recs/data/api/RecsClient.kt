@@ -2,8 +2,10 @@ package com.example.recs.data.api
 
 import com.example.recs.data.model.Genres
 import com.example.recs.data.model.Movie
+import com.example.recs.data.model.MovieDetailsResponse
 import com.example.recs.data.model.Rating
 import com.example.recs.data.model.TmdbApiResponse
+import com.example.recs.data.model.MovieRecsId
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,7 +28,7 @@ class RecsClient @Inject constructor(): RemoteSource {
         return recService.getMoviesByGenre(genreId)
     }
 
-    override suspend fun getMovieDetails(movieId: Int): TmdbApiResponse {
+    override suspend fun getMovieDetails(movieId: Int): MovieDetailsResponse {
        return recService.getMovieDetails(movieId)
     }
 
@@ -38,11 +40,11 @@ class RecsClient @Inject constructor(): RemoteSource {
         return recService.getRatingByUser(userId)
     }
 
-    override suspend fun getRecsBasedByGenres(genreIds: List<Int>): Movie {
+    override suspend fun getRecsBasedByGenres(genreIds: List<Int>): List<Movie> {
         return recService.getRecsBasedByGenres(genreIds)
     }
 
-    override suspend fun getRecommendationsForUser(userId: Long): Movie {
+    override suspend fun getRecommendationsForUser(userId: Long): List<MovieRecsId> {
         return recService.getRecommendationsForUser(userId)
     }
 

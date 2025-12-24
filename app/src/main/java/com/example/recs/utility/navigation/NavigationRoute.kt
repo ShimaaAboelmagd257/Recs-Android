@@ -2,20 +2,23 @@ package com.example.recs.utility.navigation
 
 sealed class NavigationRoute (val route:String){
 
-    object Splash: NavigationRoute("splash")
-    object WelcomeView: NavigationRoute("welcomeView")
+    data object Splash: NavigationRoute("splash")
+    data object WelcomeView: NavigationRoute("welcomeView")
 
-    object Profile: NavigationRoute("profile")
-    object SignIn: NavigationRoute("signIn")
-    object SignUp: NavigationRoute("signUp")
-    object MainTabs: NavigationRoute("MainTabs")
+    data object Profile: NavigationRoute("profile")
+    data object SignIn: NavigationRoute("signIn")
+    data  object SignUp: NavigationRoute("signUp")
+    data object MainTabs: NavigationRoute("MainTabs")
 
 
-    object Home: NavigationRoute("Home")
-    object MovieCard: NavigationRoute("movieCard")
-    object Genre: NavigationRoute("Genre")
-    object Recommendation: NavigationRoute("Recs")
-    object Rate: NavigationRoute("Rate")
-    object CardGrid: NavigationRoute("cardGrid")
+    data object Home: NavigationRoute("Home")
+    data object MovieDetails: NavigationRoute("MovieDetails")
+     data object MoviesByGenre: NavigationRoute("MoviesByGenre/{genreId}"){
+         fun passGenreId(id:Int):String = "MoviesByGenre/$id"
+     }
+    data object Genre: NavigationRoute("Genre")
+    data object Recommendation: NavigationRoute("Recs")
+    data object Rate: NavigationRoute("Rates")
+    data object CardGrid: NavigationRoute("cardGrid")
 
 }

@@ -1,11 +1,12 @@
 package com.example.recs.data.repository
 
 import com.example.recs.data.api.RemoteSource
-import com.example.recs.data.model.Genre
 import com.example.recs.data.model.Genres
 import com.example.recs.data.model.Movie
+import com.example.recs.data.model.MovieDetailsResponse
 import com.example.recs.data.model.Rating
 import com.example.recs.data.model.TmdbApiResponse
+import com.example.recs.data.model.MovieRecsId
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +24,7 @@ class Repository @Inject constructor(private val remoteSource: RemoteSource) {
         return remoteSource.getMoviesByGenre(genreId)
     }
 
-     suspend fun getMovieDetails(movieId: Int): TmdbApiResponse {
+     suspend fun getMovieDetails(movieId: Int): MovieDetailsResponse {
         return remoteSource.getMovieDetails(movieId)
     }
 
@@ -35,11 +36,11 @@ class Repository @Inject constructor(private val remoteSource: RemoteSource) {
         return remoteSource.getRatingByUser(userId)
     }
 
-     suspend fun getRecsBasedByGenres(genreIds: List<Int>): Movie {
+     suspend fun getRecsBasedByGenres(genreIds: List<Int>): List<Movie> {
         return remoteSource.getRecsBasedByGenres(genreIds)
     }
 
-     suspend fun getRecommendationsForUser(userId: Long): Movie {
+     suspend fun getRecommendationsForUser(userId: Long): List<MovieRecsId> {
         return remoteSource.getRecommendationsForUser(userId)
     }
 

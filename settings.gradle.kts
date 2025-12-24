@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Mini-Netflix"
+rootProject.name = "Recs"
 include(":app")
  

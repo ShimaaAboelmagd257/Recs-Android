@@ -1,8 +1,7 @@
-package com.example.recs.presentation.home
+package com.example.recs.presentation.recommendation
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,70 +31,67 @@ import com.example.recs.presentation.movie.MovieCard
 import com.example.recs.utility.Const
 
 @Composable
-fun HomeView(viewModel: HomeViewModel = hiltViewModel(), onMovieClicked:(movieId:Int)-> Unit) {
+fun RecsView(viewModel: RecsViewModel = hiltViewModel(), onMovieClicked:()-> Unit, userId:Long) {
 
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getPopularMovies()
+        viewModel.getRecommendationForUser(userId)
     }
-    val scroll = rememberScrollState()
-    when(val homeStatus = state){
-        is HomeStatus.Error -> {
+    when(val recsState = state){
+        is RecsStatus.Error -> {
             Image(
-                painter = painterResource(id = R.drawable.welcome_logo),
+                painter = painterResource(id = R.drawable.utl),
                 contentDescription = "ERROR",
                 modifier = Modifier.size(300.dp),
                 contentScale = ContentScale.Crop
 
             )
             Text(
-                text = "Error loading movies",
+                text = "Error loading movies recommendation",
                 color = Color.Red,
                 modifier = Modifier.padding(16.dp)
             )
-            Log.e(Const.APP_LOGS,"Error in Home")
+            Log.e(Const.APP_LOGS,"Error in Recs")
         }
-        HomeStatus.Loading -> {
+        RecsStatus.Loading -> {
             Box(
                 Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(50.dp),
                     color = Color.Black)
-                Log.w(Const.APP_LOGS,"LOADING in Home")
+                Log.w(Const.APP_LOGS,"LOADING in Recs")
             }
-
-
         }
-        is HomeStatus.Success -> {
-            val movies = homeStatus.data
+        is RecsStatus.Success -> {
+            val movies = recsState.data
+            val scroll = rememberScrollState()
+
             Column  (
+
                 modifier = Modifier.fillMaxSize().verticalScroll(scroll)
             ) {
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
-                    text = "Popular TMDB Movies ", fontSize = 40.sp,
+                    text = "You May also like  ", fontSize = 40.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 15.dp)
                 )
                 Spacer(modifier = Modifier.height(15.dp))
-               movies.forEach { movie ->
-                   MovieCard(
-                       movie,
-                       onMovieCardClicked = { onMovieClicked(movie.id) }
-                   )
-               }
+                movies.forEach { movie ->
+                    MovieCard(
+                        movie,
+                        onMovieCardClicked = { onMovieClicked() }
+                    )
+                }
 
 
             }
 
-            Log.e(Const.APP_LOGS,"SUCCESS Home : movies.size = ${movies.size}")
-            }
+            Log.e(Const.APP_LOGS,"SUCCESS Recs : movies.size = ${movies.size}")
         }
     }
 
 
-
-
-    
+}

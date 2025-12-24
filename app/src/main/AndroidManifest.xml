@@ -10,9 +10,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/applogo"
+        android:icon="@drawable/logo_option"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/applogo"
+        android:roundIcon="@drawable/logo_option"
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniNetflix"
         tools:targetApi="31">
