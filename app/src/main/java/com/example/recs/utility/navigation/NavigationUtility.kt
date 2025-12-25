@@ -32,7 +32,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.mini_netflix.R
+import com.example.recs.R
 import com.example.recs.presentation.account.profile.ProfileView
 import com.example.recs.presentation.genre.GenreView
 import com.example.recs.presentation.genre.MoviesByGenreView

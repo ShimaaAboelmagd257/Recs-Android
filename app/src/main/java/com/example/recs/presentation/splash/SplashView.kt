@@ -18,7 +18,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.mini_netflix.R
+import com.example.recs.R
 import com.example.recs.utility.Const
 import com.example.recs.utility.navigation.NavigationRoute
 import kotlinx.coroutines.delay

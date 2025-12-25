@@ -1,17 +1,19 @@
 package com.example.recs.data.repository
 
 import com.example.recs.data.api.RemoteSource
+import com.example.recs.data.firebase.FirebaseManager
 import com.example.recs.data.model.Genres
 import com.example.recs.data.model.Movie
 import com.example.recs.data.model.MovieDetailsResponse
 import com.example.recs.data.model.Rating
 import com.example.recs.data.model.TmdbApiResponse
 import com.example.recs.data.model.MovieRecsId
+import com.example.recs.presentation.account.signin.SignInState
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Repository @Inject constructor(private val remoteSource: RemoteSource) {
+class Repository @Inject constructor(private val remoteSource: RemoteSource , private val firebaseManager: FirebaseManager) {
 
     suspend fun getAllMovies() :List<Movie>{
        return remoteSource.getAllMovies().results
@@ -44,5 +46,14 @@ class Repository @Inject constructor(private val remoteSource: RemoteSource) {
         return remoteSource.getRecommendationsForUser(userId)
     }
 
+    suspend fun signIn(email:String,password:String):SignInState{
+        return firebaseManager.signIn(email,password)
+    }
+    suspend fun signUp(name:String,email:String,password:String):Boolean{
+        return firebaseManager.signUp(name,email,password)
+    }
+    suspend fun checkUserExists(email: String): Boolean{
+        return firebaseManager.checkUserExists(email)
+    }
 
 }

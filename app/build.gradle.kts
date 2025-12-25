@@ -6,15 +6,16 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id ("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 
 }
 
 android {
-    namespace = "com.example.mini_netflix"
+    namespace = "com.example.recs"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.mini_netflix"
+        applicationId = "com.example.recs"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -91,4 +92,11 @@ dependencies {
     implementation (libs.accompanist.pager.indicators)
     implementation( libs.accompanist.flowlayout)
 
+
+    //FIREBASE
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation (libs.google.firebase.analytics)
+    implementation (libs.firebase.auth)
+    implementation (libs.firebase.firestore)
 }

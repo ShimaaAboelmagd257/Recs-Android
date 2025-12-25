@@ -12,7 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
-import com.example.mini_netflix.R
+import com.example.recs.R
 import com.example.recs.utility.Const
 
 @Composable

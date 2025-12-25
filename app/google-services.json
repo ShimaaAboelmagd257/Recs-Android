@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "645892824816",
+    "firebase_url": "https://recs-362e6-default-rtdb.firebaseio.com",
+    "project_id": "recs-362e6",
+    "storage_bucket": "recs-362e6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645892824816:android:69fd0abcd1cb35348dec35",
+        "android_client_info": {
+          "package_name": "com.example.recs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7QAUcSbdWr-VBFpWwhjwb5xepQafIYaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

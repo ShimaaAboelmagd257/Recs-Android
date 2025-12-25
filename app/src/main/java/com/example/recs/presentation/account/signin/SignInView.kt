@@ -1,6 +1,7 @@
 package com.example.recs.presentation.account.signin
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,23 +17,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import com.example.mini_netflix.R
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.recs.R
 import com.example.recs.utility.Const
 
 @Composable
 fun SignInView(
+    signInViewModel: SignInViewModel = hiltViewModel(),
     onSignInClick:()->Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val viewState by signInViewModel.state.collectAsState()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier.fillMaxSize().padding(20.dp),
@@ -93,8 +101,11 @@ fun SignInView(
         Button(
             colors = ButtonDefaults.buttonColors(Color.Black),
             onClick = {
-                onSignInClick()
-                Log.d(Const.APP_LOGS,"onSignInClicked")
+                if (Const.isValidEmail(email) && Const.isValidPassword(password)) {
+                    signInViewModel.signIn(email = email, password = password)
+                    Log.d(Const.APP_LOGS, "onSignInClicked")
+
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -102,6 +113,31 @@ fun SignInView(
                 text = "Sign In",
                 color = Color.White
             )
+        }
+
+
+
+        when (val state = viewState) {
+            is SignInState.Loading -> {
+                androidx.compose.material.CircularProgressIndicator()
+            }
+            is SignInState.Success -> {
+                //sharedPreferences.addBoolean(Constans.SAVED_SIGNIN, true)
+                Toast.makeText(context, "Login succcessfully", Toast.LENGTH_SHORT).show()
+                onSignInClick()
+            }
+            is SignInState.WrongPassword -> {
+                Toast.makeText(context, "Wrong Password", Toast.LENGTH_SHORT).show()
+            }
+            is SignInState.UserNotFound ->{
+                Toast.makeText(context, "User not Found", Toast.LENGTH_SHORT).show()
+
+            }
+            is SignInState.Error -> {
+              //  sharedPreferences.addBoolean(Constans.SAVED_SIGNIN, false)
+                Toast.makeText(context, "Error Loging in", Toast.LENGTH_SHORT).show()
+            }
+            else -> {}
         }
 
 
