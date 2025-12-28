@@ -1,6 +1,5 @@
 package com.example.recs.presentation.account.signin
 
-import android.util.Log
 import com.example.recs.data.repository.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

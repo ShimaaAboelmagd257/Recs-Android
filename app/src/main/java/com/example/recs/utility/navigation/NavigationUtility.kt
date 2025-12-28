@@ -100,7 +100,7 @@ fun HomeTabs() {
                         }
                         composable( "movieDetails/{movieId}", arguments = listOf(navArgument("movieId") { type = NavType.IntType }) ) {
                             val movieId = it.arguments?.getInt("movieId")!!
-                            MovieWithDetailsView (movieId = movieId , onRateClicked = {})
+                            MovieWithDetailsView (movieId = movieId )
                         }
                         composable(
                             NavigationRoute.MoviesByGenre.route,

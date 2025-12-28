@@ -25,9 +25,10 @@ class RatingUseCase @Inject constructor(private val repository: Repository) {
         }
     }
 
-    suspend fun submitRating(rating: Rating){
-        withContext(Dispatchers.IO){
+    suspend fun submitRating(rating: Rating):SubmitRatingStatus{
+       return withContext(Dispatchers.IO){
             repository.submitRating(rating)
+           SubmitRatingStatus.Success(rating = rating)
         }
     }
 }

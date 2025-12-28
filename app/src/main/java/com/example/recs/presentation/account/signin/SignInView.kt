@@ -3,7 +3,6 @@ package com.example.recs.presentation.account.signin
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,7 +40,36 @@ fun SignInView(
     var password by remember { mutableStateOf("") }
     val viewState by signInViewModel.state.collectAsState()
     val context = LocalContext.current
+    LaunchedEffect(viewState) {
+        when (val state = viewState) {
 
+
+            is SignInState.Success -> {
+                Toast.makeText(context, "Signup successfully ", Toast.LENGTH_SHORT)
+                    .show()
+               onSignInClick()
+
+            }
+
+            is SignInState.Error -> {
+                Toast.makeText(context, "Please try again later", Toast.LENGTH_SHORT)
+                    .show()
+                Log.e(Const.APP_LOGS, "Error ${state.errorMessage}")
+
+            }
+            is SignInState.WrongPassword -> {
+                Toast.makeText(context, "Wrong Password", Toast.LENGTH_SHORT).show()
+            }
+            is SignInState.UserNotFound ->{
+                Toast.makeText(context, "User not Found", Toast.LENGTH_SHORT).show()
+
+            }
+            else -> {
+
+            }
+
+        }
+    }
     Column(
         modifier = Modifier.fillMaxSize().padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -113,32 +141,14 @@ fun SignInView(
                 text = "Sign In",
                 color = Color.White
             )
+            if (viewState is SignInState.Loading) {
+                CircularProgressIndicator()
+            }
         }
 
 
 
-        when (val state = viewState) {
-            is SignInState.Loading -> {
-                androidx.compose.material.CircularProgressIndicator()
-            }
-            is SignInState.Success -> {
-                //sharedPreferences.addBoolean(Constans.SAVED_SIGNIN, true)
-                Toast.makeText(context, "Login succcessfully", Toast.LENGTH_SHORT).show()
-                onSignInClick()
-            }
-            is SignInState.WrongPassword -> {
-                Toast.makeText(context, "Wrong Password", Toast.LENGTH_SHORT).show()
-            }
-            is SignInState.UserNotFound ->{
-                Toast.makeText(context, "User not Found", Toast.LENGTH_SHORT).show()
 
-            }
-            is SignInState.Error -> {
-              //  sharedPreferences.addBoolean(Constans.SAVED_SIGNIN, false)
-                Toast.makeText(context, "Error Loging in", Toast.LENGTH_SHORT).show()
-            }
-            else -> {}
-        }
 
 
     }

@@ -66,7 +66,7 @@ fun MovieCard(
                     .padding(10.dp)
                     .fillMaxWidth()
             ) {
-                Text(text =  "Watch Now")
+                Text(text =  "Details")
                 Log.d(Const.APP_LOGS,"onMovieCardClicked")
 
             }
