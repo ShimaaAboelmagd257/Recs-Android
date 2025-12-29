@@ -1,6 +1,4 @@
 package com.example.recs.presentation.genre
-
-import com.example.recs.data.model.Genre
 import com.example.recs.data.model.Genres
 
 sealed class GenreStatus {

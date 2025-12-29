@@ -15,7 +15,7 @@ interface RemoteSource {
     suspend fun getMoviesByGenre(genreId:Int):TmdbApiResponse
     suspend fun getMovieDetails(movieId:Int): MovieDetailsResponse
     suspend fun submitRating(rating: Rating): Rating
-    suspend fun getRatingByUser(userId:Long):List<Rating>
+    suspend fun getRatingByUser(userId:String):List<Rating>
     suspend fun getRecsBasedByGenres(genreIds:List<Int>): List<Movie>
-    suspend fun getRecommendationsForUser(userId:Long): List<MovieRecsId>
+    suspend fun getRecommendationsForUser(userId:String): List<MovieRecsId>
 }

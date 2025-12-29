@@ -1,6 +1,5 @@
 package com.example.recs.data.firebase
 
-import android.content.Context
 import android.util.Log
 import com.example.recs.data.model.User
 import com.example.recs.data.sharedprefrence.SharedPreference
@@ -9,13 +8,12 @@ import com.example.recs.utility.Const
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FirebaseManager @Inject constructor(@ApplicationContext context: Context, private val sharedPreference: SharedPreference){
+class FirebaseManager @Inject constructor(private val sharedPreference: SharedPreference){
 
     private val mAuth:FirebaseAuth = FirebaseAuth.getInstance()
     private val fireStore:FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -26,7 +24,7 @@ class FirebaseManager @Inject constructor(@ApplicationContext context: Context, 
         return try {
             val result = mAuth.signInWithEmailAndPassword(email,password).await()
             val userId = result.user?.uid?:throw IllegalStateException("User Id Null")
-            sharedPreference.addString("userId",userId)
+            sharedPreference.addString(Const.USER_ID,userId)
             SignInState.Success
 
         }catch (e:Exception){
@@ -49,8 +47,18 @@ class FirebaseManager @Inject constructor(@ApplicationContext context: Context, 
 
         }
     }
+
     fun signOut(){
         mAuth.signOut()
+    }
+    suspend fun getUserInfo(uid:String):User?{
+        return try {
+            val snapshot = userCollection.document(uid).get().await()
+            snapshot.toObject(User::class.java)?: throw IllegalStateException("User Not Found")
+        }catch (e:Exception){
+            Log.e(Const.APP_LOGS,"Error User id : $uid  ${e.message}")
+            null
+        }
     }
 
     suspend fun checkUserExists(email: String): Boolean {

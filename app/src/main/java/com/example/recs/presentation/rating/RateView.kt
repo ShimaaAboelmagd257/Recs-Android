@@ -31,7 +31,7 @@ import com.example.recs.presentation.movie.MovieCard
 import com.example.recs.utility.Const
 
 @Composable
-fun RateView(viewModel: RatingViewModel = hiltViewModel(), userId:Long, onMovieClicked:()->Unit) {
+fun RateView(viewModel: RatingViewModel = hiltViewModel(), userId:String, onMovieClicked:()->Unit) {
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {

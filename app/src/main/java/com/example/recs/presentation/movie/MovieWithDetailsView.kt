@@ -38,10 +38,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import coil.compose.AsyncImage
 import com.example.recs.R
-import com.example.recs.data.model.Rating
 import com.example.recs.presentation.rating.RatingViewModel
 import com.example.recs.presentation.rating.SubmitRatingStatus
 import com.example.recs.utility.Const
@@ -49,7 +47,7 @@ import com.example.recs.utility.Const
 @Composable
 fun MovieWithDetailsView(viewModel: MovieDetailsViewModel = hiltViewModel(),
                          rateViewModel: RatingViewModel = hiltViewModel(),
-                         movieId:Int) {
+                         movieId:Int, userId:String) {
 
     val movieDetailState by viewModel.state.collectAsState()
     val ratingState by rateViewModel.rateState.collectAsState()
@@ -60,8 +58,11 @@ fun MovieWithDetailsView(viewModel: MovieDetailsViewModel = hiltViewModel(),
     }
     LaunchedEffect(ratingState) {
         if (ratingState is SubmitRatingStatus.Success) {
-            Toast.makeText(context, "Signup successfully ", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Submit rating success", Toast.LENGTH_SHORT)
                 .show()
+        }
+        if(ratingState is SubmitRatingStatus.Error){
+           Log.e(Const.APP_LOGS,"Error submit ratings"  )
         }
     }
     when(val movieState = movieDetailState){
@@ -122,7 +123,8 @@ fun MovieWithDetailsView(viewModel: MovieDetailsViewModel = hiltViewModel(),
                     )
 
                     RateMovieButton(onSubmitRateClicked = {rating ->
-                        rateViewModel.submitRating(movieId, rating =rating )
+                        rateViewModel.submitRating(userId = userId, movieId = movieId, rating =rating )
+                        Log.e(Const.APP_LOGS,"SubmitRating${ userId},${ movieId},${ rating}")
 
                     })
                     Row(

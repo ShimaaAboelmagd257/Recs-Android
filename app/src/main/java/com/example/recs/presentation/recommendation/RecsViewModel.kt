@@ -18,7 +18,7 @@ class RecsViewModel @Inject constructor(private val recsUseCase: RecsUseCase  ):
     private val _state = MutableStateFlow<RecsStatus>(RecsStatus.Loading)
     val state: StateFlow<RecsStatus> = _state
 
-    fun getRecommendationForUser(userId:Long){
+    fun getRecommendationForUser(userId:String){
         viewModelScope.launch {
             try {
                 val result = recsUseCase.invoke(userId)

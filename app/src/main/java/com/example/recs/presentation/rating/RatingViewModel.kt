@@ -21,7 +21,7 @@ class RatingViewModel @Inject constructor(private val useCase: RatingUseCase):Vi
     private val _rateState = MutableStateFlow<SubmitRatingStatus>(SubmitRatingStatus.Loading)
     val rateState: StateFlow<SubmitRatingStatus> = _rateState
 
-    fun getRatingsByUser(userId:Long){
+    fun getRatingsByUser(userId:String){
         viewModelScope.launch {
             try {
                 val result = useCase.invoke(userId)
@@ -35,8 +35,8 @@ class RatingViewModel @Inject constructor(private val useCase: RatingUseCase):Vi
         }
     }
 
-    fun submitRating( movieId: Int,rating:Double){
-        val userId = 12121111112
+    fun submitRating( movieId: Int,rating:Double,userId: String){
+
         viewModelScope.launch {
             try {
                 val result = useCase.submitRating(Rating(

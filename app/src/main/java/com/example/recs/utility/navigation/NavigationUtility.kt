@@ -43,7 +43,7 @@ import com.example.recs.presentation.rating.RateView
 import com.example.recs.presentation.recommendation.RecsView
 
 @Composable
-fun HomeTabs() {
+fun HomeTabs(uid:String) {
     val homeTab = TabBarItem(
         title = NavigationRoute.Home.route,
         selectedIcon = painterResource(R.drawable.home_filled),
@@ -100,7 +100,7 @@ fun HomeTabs() {
                         }
                         composable( "movieDetails/{movieId}", arguments = listOf(navArgument("movieId") { type = NavType.IntType }) ) {
                             val movieId = it.arguments?.getInt("movieId")!!
-                            MovieWithDetailsView (movieId = movieId )
+                            MovieWithDetailsView (movieId = movieId , userId = uid )
                         }
                         composable(
                             NavigationRoute.MoviesByGenre.route,
@@ -114,13 +114,13 @@ fun HomeTabs() {
                             )
                         }
                         composable(NavigationRoute.Recommendation.route) {
-                           RecsView(onMovieClicked = { navController.navigate(NavigationRoute.Rate.route) }, userId = 1)
+                           RecsView(onMovieClicked = { navController.navigate(NavigationRoute.Rate.route) }, userId = uid)
                         }
                         composable(NavigationRoute.Rate.route) {
-                           RateView(userId = 1, onMovieClicked = {})
+                           RateView(userId = uid, onMovieClicked = {})
                         }
                         composable(NavigationRoute.Profile.route) {
-                            ProfileView()
+                            ProfileView(uid = uid)
                         }
 
 

@@ -1,6 +1,5 @@
 package com.example.recs.presentation.movie
 
-import com.example.recs.data.model.Movie
 import com.example.recs.data.model.MovieDetailsResponse
 
 sealed class MovieDetailStatus {

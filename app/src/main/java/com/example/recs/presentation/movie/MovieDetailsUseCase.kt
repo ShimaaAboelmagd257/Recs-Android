@@ -1,7 +1,6 @@
 package com.example.recs.presentation.movie
 
 import com.example.recs.data.repository.Repository
-import com.example.recs.presentation.home.HomeStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

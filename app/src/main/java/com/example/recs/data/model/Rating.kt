@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Rating (
-    val userId:Long,
+    val userId:String,
     val movieId:Int,
     val rating:Double
 ): Parcelable

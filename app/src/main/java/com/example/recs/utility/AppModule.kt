@@ -33,8 +33,8 @@ object ContextModule{
 
     @Provides
     @Singleton
-    fun provideFirebaseManager(@ApplicationContext context: Context , sharedPreference: SharedPreference): FirebaseManager {
-        return FirebaseManager(context,sharedPreference)
+    fun provideFirebaseManager(sharedPreference: SharedPreference): FirebaseManager {
+        return FirebaseManager(sharedPreference)
     }
     @Provides
     fun provideRemoteSource():RemoteSource{

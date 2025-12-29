@@ -36,7 +36,7 @@ class RecsClient @Inject constructor(): RemoteSource {
         return recService.submitRating(rating)
     }
 
-    override suspend fun getRatingByUser(userId: Long): List<Rating> {
+    override suspend fun getRatingByUser(userId: String): List<Rating> {
         return recService.getRatingByUser(userId)
     }
 
@@ -44,7 +44,7 @@ class RecsClient @Inject constructor(): RemoteSource {
         return recService.getRecsBasedByGenres(genreIds)
     }
 
-    override suspend fun getRecommendationsForUser(userId: Long): List<MovieRecsId> {
+    override suspend fun getRecommendationsForUser(userId: String): List<MovieRecsId> {
         return recService.getRecommendationsForUser(userId)
     }
 

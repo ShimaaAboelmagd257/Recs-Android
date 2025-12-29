@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class RatingUseCase @Inject constructor(private val repository: Repository) {
 
-    suspend operator fun invoke(userId: Long): RatingStatus {
+    suspend operator fun invoke(userId: String): RatingStatus {
         return withContext(Dispatchers.IO) {
             val data = repository.getRatingByUser(userId)
             val movies:List<Movie> = data.map { id ->

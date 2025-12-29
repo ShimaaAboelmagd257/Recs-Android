@@ -6,6 +6,7 @@ import com.example.recs.data.model.MovieDetailsResponse
 import com.example.recs.data.model.Rating
 import com.example.recs.data.model.TmdbApiResponse
 import com.example.recs.data.model.MovieRecsId
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -22,15 +23,15 @@ interface RecService {
     @GET("movies/{movieId}")
     suspend fun getMovieDetails( @Path("movieId")movieId:Int): MovieDetailsResponse
     @POST("ratings")
-    suspend fun submitRating(rating: Rating):Rating
+    suspend fun submitRating(@Body rating: Rating):Rating
     @GET("ratings/user/{userId}")
     suspend fun getRatingByUser(
-        @Path("userId") userId: Long
+        @Path("userId") userId: String
     ):List<Rating>
     @GET("recommendations/by_genre")
     suspend fun getRecsBasedByGenres(genreIds:List<Int>):List<Movie>
     @GET("recommendations/{userId}")
     suspend fun getRecommendationsForUser(
-        @Path("userId") userId: Long,
+        @Path("userId") userId: String,
         @Query("limit") limit: Int = 10):List<MovieRecsId>
 }

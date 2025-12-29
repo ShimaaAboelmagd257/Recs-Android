@@ -2,7 +2,6 @@ package com.example.recs.presentation.genre
 
 import android.util.Log
 import com.example.recs.data.repository.Repository
-import com.example.recs.presentation.home.HomeStatus
 import com.example.recs.utility.Const
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

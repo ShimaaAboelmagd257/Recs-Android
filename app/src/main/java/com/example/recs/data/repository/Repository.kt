@@ -8,6 +8,7 @@ import com.example.recs.data.model.MovieDetailsResponse
 import com.example.recs.data.model.Rating
 import com.example.recs.data.model.TmdbApiResponse
 import com.example.recs.data.model.MovieRecsId
+import com.example.recs.data.model.User
 import com.example.recs.presentation.account.signin.SignInState
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,7 +35,7 @@ class Repository @Inject constructor(private val remoteSource: RemoteSource , pr
         return remoteSource.submitRating(rating)
     }
 
-     suspend fun getRatingByUser(userId: Long): List<Rating> {
+     suspend fun getRatingByUser(userId: String): List<Rating> {
         return remoteSource.getRatingByUser(userId)
     }
 
@@ -42,7 +43,7 @@ class Repository @Inject constructor(private val remoteSource: RemoteSource , pr
         return remoteSource.getRecsBasedByGenres(genreIds)
     }
 
-     suspend fun getRecommendationsForUser(userId: Long): List<MovieRecsId> {
+     suspend fun getRecommendationsForUser(userId: String): List<MovieRecsId> {
         return remoteSource.getRecommendationsForUser(userId)
     }
 
@@ -55,5 +56,9 @@ class Repository @Inject constructor(private val remoteSource: RemoteSource , pr
     suspend fun checkUserExists(email: String): Boolean{
         return firebaseManager.checkUserExists(email)
     }
+     fun signOut() = firebaseManager.signOut()
 
+    suspend fun getUserInfo(uid:String) : User?{
+        return firebaseManager.getUserInfo(uid)
+    }
 }

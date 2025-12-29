@@ -31,7 +31,7 @@ import com.example.recs.presentation.movie.MovieCard
 import com.example.recs.utility.Const
 
 @Composable
-fun RecsView(viewModel: RecsViewModel = hiltViewModel(), onMovieClicked:()-> Unit, userId:Long) {
+fun RecsView(viewModel: RecsViewModel = hiltViewModel(), onMovieClicked:()-> Unit, userId:String) {
 
     val state by viewModel.state.collectAsState()
 
